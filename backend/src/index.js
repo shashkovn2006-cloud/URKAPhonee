@@ -1,52 +1,34 @@
 const express = require('express');
-const cors = require('cors');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS
-app.use(cors({
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'https://urkaphonee.onrender.com'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}));
-
-// Middleware
+// Простые middleware
 app.use(express.json());
 
-// Простые тестовые роуты без базы
-app.use('/api/auth', (req, res) => {
-  res.json({ message: 'Auth endpoint - DB disabled' });
-});
-
-app.use('/api/game', (req, res) => {
-  res.json({ message: 'Game endpoint - DB disabled' });
-});
-
-app.use('/api/user', (req, res) => {
-  res.json({ message: 'User endpoint - DB disabled' });
-});
-
+// Простые роуты без БД
 app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
-    message: 'URKA Phone API is running',
-    timestamp: new Date().toISOString()
-  });
+  res.json({ status: 'OK', message: 'Server is running' });
 });
 
-// Статические файлы фронтенда
+app.post('/api/auth/register', (req, res) => {
+  res.json({ success: true, message: 'Registered (mock)' });
+});
+
+app.post('/api/auth/login', (req, res) => {
+  res.json({ success: true, token: 'mock-token', user: { id: 1, name: 'Test User' } });
+});
+
+// Отдаем фронтенд
 app.use(express.static(path.join(__dirname, '../../frontend/build')));
 
-// Все запросы на фронтенд
-app.get('(.*)', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../frontend/build/index.html'));
 });
 
-// Запуск сервера
+// Запускаем сервер
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
-  console.log(`✅ Frontend is serving static files`);
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`✅ Frontend served from: ${path.join(__dirname, '../../frontend/build')}`);
 });
