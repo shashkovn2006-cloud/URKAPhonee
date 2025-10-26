@@ -1,25 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-// Временные роуты без БД
-router.get('/', (req, res) => {
+router.get('/profile', (req, res) => {
   res.json({ 
-    message: 'Get all users endpoint - will be implemented with DB',
-    status: 'TODO'
-  });
-});
-
-router.get('/:id', (req, res) => {
-  res.json({ 
-    message: `Get user by ID ${req.params.id} - will be implemented with DB`,
-    status: 'TODO'
-  });
-});
-
-router.put('/:id/stats', (req, res) => {
-  res.json({ 
-    message: `Update user stats ${req.params.id} - will be implemented with DB`,
-    status: 'TODO'
+    user: { id: 1, username: 'mock_user', email: 'mock@email.com' },
+    message: 'User profile - DB disabled'
   });
 });
 
