@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-//const { testConnection } = require('./config/database');
 require('dotenv').config();
 
 const app = express();
@@ -25,16 +24,7 @@ app.use('/api/user', require('./routes/users'));
 
 // Test endpoints
 app.get('/api/test-db', async (req, res) => {
-  //try {
-    //const { query } = require('./config/database');
-    //const result = await query('SELECT NOW() as current_time');
-    //res.json({ 
-      //message: 'Database connection successful!',
-      //time: result.rows[0].current_time
-   // });
- // } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+  res.json({ message: 'Database check disabled' });
 });
 
 app.get('/api/health', (req, res) => {
@@ -59,28 +49,22 @@ app.get('/api', (req, res) => {
   });
 });
 
-// ✅ ДОБАВЛЕНО: Раздаем статические файлы фронтенда
+// Раздаем статические файлы фронтенда
 app.use(express.static(path.join(__dirname, '../../frontend/build')));
 
-// ✅ ИСПРАВЛЕНО: Упрощенный подход для деплоя
-app.get('/', (req, res) => {
+// Все остальные запросы -> на фронтенд
+app.get('(.*)', (req, res) => {
   res.sendFile(path.join(__dirname, '../../frontend/build/index.html'));
 });
 
 // Start server
 const server = app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`);
-  //testConnection();
 });
 
 process.on('SIGINT', async () => {
   console.log('\n🛑 Shutting down server...');
-  const { pool } = require('./config/database');
-  await pool.end();
   server.close(() => {
     process.exit(0);
   });
-
 });
-
-
