@@ -70,7 +70,7 @@ app.get('/', (req, res) => {
 // Start server
 const server = app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`);
-  testConnection();
+  //testConnection();
 });
 
 process.on('SIGINT', async () => {
@@ -80,4 +80,5 @@ process.on('SIGINT', async () => {
   server.close(() => {
     process.exit(0);
   });
+
 });
