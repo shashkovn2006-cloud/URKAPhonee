@@ -25,14 +25,14 @@ app.use('/api/user', require('./routes/users'));
 
 // Test endpoints
 app.get('/api/test-db', async (req, res) => {
-  try {
-    const { query } = require('./config/database');
-    const result = await query('SELECT NOW() as current_time');
-    res.json({ 
-      message: 'Database connection successful!',
-      time: result.rows[0].current_time
-    });
-  } catch (error) {
+  //try {
+    //const { query } = require('./config/database');
+    //const result = await query('SELECT NOW() as current_time');
+    //res.json({ 
+      //message: 'Database connection successful!',
+      //time: result.rows[0].current_time
+   // });
+ // } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
@@ -82,4 +82,5 @@ process.on('SIGINT', async () => {
   });
 
 });
+
 
