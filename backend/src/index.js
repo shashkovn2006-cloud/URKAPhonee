@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { testConnection } = require('./config/database');
+//const { testConnection } = require('./config/database');
 require('dotenv').config();
 
 const app = express();
@@ -82,3 +82,4 @@ process.on('SIGINT', async () => {
   });
 
 });
+
